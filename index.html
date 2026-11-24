@@ -72,7 +72,61 @@ button{
 </div>
 
 <script>
+// Add near the top of the script
+const SUPABASE_URL = "https://pwquwkbfrznhpbrkzrjz.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_L7KGHafEiPu76i_U_VrxCQ_Z-yk3DDu";
+const SUPABASE_RESPONSES_URL = `${SUPABASE_URL}/rest/v1/responses`;
 
+async function submitResults(data){
+    const response = await fetch(SUPABASE_RESPONSES_URL, {
+        method: "POST",
+        headers: {
+            "apikey": SUPABASE_PUBLISHABLE_KEY,
+            "Authorization": `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+            "Content-Type": "application/json",
+            "Prefer": "return=minimal"
+        },
+        body: JSON.stringify({
+            payload: JSON.parse(data)
+        })
+    });
+
+    if(!response.ok){
+        throw new Error("Supabase submission failed");
+    }
+}
+
+// Replace the existing finish() function
+async function finish(){
+
+    session.completed = true;
+    session.ended = new Date().toISOString();
+
+    const data = JSON.stringify(session, null, 2);
+
+    try{
+        await submitResults(data);
+
+        app.innerHTML = `
+            <p>Thank you.</p>
+
+            <p>Your responses have been recorded.</p>
+
+            <p>If you'd like to see where it leads, you may opt in at any time.</p>
+
+            <p>
+                Ex-O-Ex-O,<br><br>
+                Not Gossip Girl
+            </p>
+        `;
+    }catch(error){
+        app.innerHTML = `
+            <p>Thank you.</p>
+
+            <p>Your responses could not be recorded automatically. Please contact the researcher.</p>
+        `;
+    }
+}
 const questions = [
 {
 q:"When nobody notices what you've done, are you more likely to...",
