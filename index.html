@@ -96,9 +96,7 @@ async function submitResults(data){
     }
 }
 
-// Replace the existing finish() function
-async 
-
+async function finish(){
     session.completed = true;
     session.ended = new Date().toISOString();
 
@@ -127,6 +125,7 @@ async
         `;
     }
 }
+
 const questions = [
 {
 q:"When nobody notices what you've done, are you more likely to...",
@@ -426,9 +425,7 @@ showQuestion();
 };
 }
 
-
-
-
-
+showIntro();
+</script>
 </body>
 </html>
