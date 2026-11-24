@@ -72,7 +72,7 @@ button{
 </div>
 
 <script>
-// Add near the top of the script
+
 const SUPABASE_URL = "https://pwquwkbfrznhpbrkzrjz.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_L7KGHafEiPu76i_U_VrxCQ_Z-yk3DDu";
 const SUPABASE_RESPONSES_URL = `${SUPABASE_URL}/rest/v1/responses`;
@@ -97,7 +97,7 @@ async function submitResults(data){
 }
 
 // Replace the existing finish() function
-async function finish(){
+async 
 
     session.completed = true;
     session.ended = new Date().toISOString();
@@ -426,62 +426,9 @@ showQuestion();
 };
 }
 
-function finish(){
 
-session.completed = true;
 
-session.ended = new Date().toISOString();
 
-const data =
-JSON.stringify(session,null,2);
-
-app.innerHTML = `
-<h1>Complete</h1>
-
-<p>Thank you.</p>
-
-<button id="download">
-Download Results
-</button>
-
-<button id="copy">
-Copy Results
-</button>
-
-<pre>${data}</pre>
-`;
-
-document.getElementById("copy").onclick=()=>{
-navigator.clipboard.writeText(data);
-};
-
-document.getElementById("download").onclick=()=>{
-
-const blob = new Blob(
-[data],
-{type:"application/json"}
-);
-
-const url =
-URL.createObjectURL(blob);
-
-const a =
-document.createElement("a");
-
-a.href=url;
-
-a.download =
-session.participant_code + "_results.json";
-
-a.click();
-
-URL.revokeObjectURL(url);
-};
-}
-
-showIntro();
-
-</script>
 
 </body>
 </html>
