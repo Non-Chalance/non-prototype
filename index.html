@@ -223,6 +223,7 @@ let currentQuestion = -1;
 let questionStart = 0;
 
 const app = document.getElementById("app");
+const participantCode = new URLSearchParams(window.location.search).get("id");
 
 function showIntro(){
 
@@ -252,16 +253,9 @@ Not Gossip Girl
 
 <hr>
 
-<label>
-Participant Code:
-<select id="participant">
-<option>P11</option>
-<option>P21</option>
-<option>P31</option>
-</select>
-</label>
+${participantCode ? `Participant Code: ${participantCode}` : `<p>Error: No participant code was provided. Please use a URL containing ?id=P11, ?id=P21, or ?id=P31.</p>`}
 
-<br><br>
+${participantCode ? `<br><br>
 
 <label>
 <input type="checkbox" id="optin">
@@ -270,16 +264,17 @@ I would like to see where this leads.
 
 <br><br>
 
-<button id="begin">Begin</button>
+<button id="begin">Begin</button>` : ``}
 `;
 
+if(participantCode){
 document.getElementById("begin").onclick = startSurvey;
+}
 }
 
 function startSurvey(){
 
-session.participant_code =
-document.getElementById("participant").value;
+session.participant_code = participantCode;
 
 session.opt_in =
 document.getElementById("optin").checked;
